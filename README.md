@@ -1,12 +1,10 @@
-# PoliTo-Paths
+# PoliTo-Paths 
 
-### **How to Start/Stop the Bot**  
-
-#### **Prerequisites**  
+## **Prerequisites**  
 - Python 3.12+ installed  
 - `git` installed
 
-#### **Steps**  
+## **Installation and configuration**  
 1. **Clone the repository** (if not already done):  
    ```bash
    git clone https://github.com/giuuuug/PoliTo-Paths.git
@@ -31,8 +29,10 @@
    pip install python-telegram-bot
    ```
    If installed without errors, you're ready to start the bot.
+   
+## **How to Start/Stop the Bot**  
 
-5. **Run the bot**:  
+1. **Run the bot**:  
    ```bash
    ./run_app.sh
    ```
@@ -40,13 +40,13 @@
    - Automatically activate the virtual environment (`.venv`)  
    - Start the bot in background (logs saved to `app.log`)  
 
-6. **Stop the bot**:  
+2. **Stop the bot**:  
    ```bash
    ./stop_app.sh
    ```
    This terminates all running instances of `app.py`
 
-7. **Test the bot**:  
+3. **Test the bot**:  
    Search for **@polito_paths_bot** in Telegram
 
 #### **Troubleshooting**  
@@ -58,7 +58,7 @@
     ```  
 - Check `app.log` for error details
 
-### **Key Files**  
+## **Key Files**  
 | File          | Purpose                                |  
 |---------------|----------------------------------------|  
 | `run_app.sh`  | Starts the bot with auto-venv check    |  
