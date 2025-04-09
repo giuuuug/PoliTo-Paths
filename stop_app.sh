@@ -5,17 +5,10 @@ MAIN_FILE="$PROJECT_DIR/src/main.py"
 APP_NAME="PoliTo Paths"
 
 # Funzioni di supporto
-error_msg() {
-    echo -e "\033[1;31m$1\033[0m" >&2
-}
-
-success_msg() {
-    echo -e "\033[1;32m$1\033[0m"
-}
-
-warning_msg() {
-    echo -e "\033[1;33m$1\033[0m"
-}
+info_msg() { echo -e "\033[1;30m$1\033[0m"; }
+error_msg() { echo -e "\033[1;31m$1\033[0m" >&2; }
+success_msg() { echo -e "\033[1;32m$1\033[0m"; }
+warning_msg() { echo -e "\033[1;33m$1\033[0m"; }
 
 # Cerca processi attivi
 pids=$(pgrep -f "python3.*$(basename "$MAIN_FILE")")
