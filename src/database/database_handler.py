@@ -1,4 +1,4 @@
-import logging
+
 from abc import ABC, abstractmethod
 
 class DatabaseHandler(ABC):
@@ -17,7 +17,6 @@ class DatabaseHandler(ABC):
         """
         self.config = config
         self.connection = None
-        self.logger = logging.getLogger(self.__class__.__name__)
 
     @abstractmethod
     def connect(self):
