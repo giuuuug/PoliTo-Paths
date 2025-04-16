@@ -1,5 +1,5 @@
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, CallbackQueryHandler, ConversationHandler
-from command.sample_command import SampleCommand
+from command.navigate_command import NavigateCommand
 from database.database_postgreSQL_pgrouting_sample import DatabasePostgreSQLPgRoutingSample
 from database.database_postgreSQL_polito_paths import DatabasePostgreSQLPolitoPaths
 
@@ -12,14 +12,14 @@ class TelegramBot:
         self.db_pg_routing_sample = DatabasePostgreSQLPgRoutingSample()
         self.db_polito_paths = DatabasePostgreSQLPolitoPaths()
         
-        self.sample_command = SampleCommand(self.db_pg_routing_sample)
+        self.sample_command = NavigateCommand(self.db_pg_routing_sample)
     
         self._register_handlers()
 
     def _register_handlers(self):
         sample_command_handler = ConversationHandler(
             entry_points=[CommandHandler("start", self.sample_command.command_start),
-                        CommandHandler("sample", self.sample_command.command_start)],
+                        CommandHandler("navigate", self.sample_command.command_start)],
             states={
                 QUESTION_1: [CallbackQueryHandler(self.sample_command.handle_question)],
                 QUESTION_2: [CallbackQueryHandler(self.sample_command.handle_question)],

@@ -14,7 +14,7 @@ class SampleCommandState(Enum):
 # Define states for the conversation
 QUESTION_1, QUESTION_2 = range(2)
 
-class SampleCommand(CommandHandler):
+class NavigateCommand(CommandHandler):
     def __init__(self, database: DatabasePostgreSQLPgRoutingSample = None):
         super().__init__(log=Log(self.__class__.__name__), database=database)
         self.carousel = CarouselWidget()
@@ -67,6 +67,11 @@ class SampleCommand(CommandHandler):
             await update_or_query.edit_message_text(question["text"], reply_markup=btn_grid)
     
     async def command_start(self, update, context):
+        # Reset state and clear previous answers
+        self.state = SampleCommandState.SAMPLE_COMMAND_STATE_1_Q.value
+        self.answers = []
+        self.questions = []  # Clear previous questions too
+        
         await self._set_questions(update)
         await self._send_question(update, context)
         return QUESTION_1  # Start with the first question
