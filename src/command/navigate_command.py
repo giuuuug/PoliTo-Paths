@@ -47,15 +47,6 @@ class NavigateCommand(CommandHandler):
         if user_id in self.user_states:
             del self.user_states[user_id]
 
-    def _resize_image(self, image_path: str, size: tuple = (100, 100)) -> io.BytesIO:
-        """Resize an image and return it as BytesIO object."""
-        with Image.open(image_path) as img:
-            img = img.resize(size, Image.Resampling.LANCZOS)
-            bio = io.BytesIO()
-            bio.name = 'resized_image.png'
-            img.save(bio, 'PNG')
-            bio.seek(0)
-            return bio
         
     async def _set_questions(self, update: Update):
         user_id = update.effective_user.id
@@ -176,16 +167,20 @@ class NavigateCommand(CommandHandler):
             
             self.log.info(f"Source point as number: {source_point_as_num} Destination point as number: {destination_point_as_num}")
 
-            # Special case for path from point 74 (classroom 5i) to point 65 (classroom 6i)
-            if source_point_as_num == '74' and destination_point_as_num == '65':
-                await context.bot.send_message(
+            # Special case for path from point 65 (classroom 6i) to point 74 (classroom 5i)
+            if source_point_as_num == '65' and destination_point_as_num == '74':
+                version_no_bg = True
+                
+                photo = 'img/istr_no_bg/map_no_bg.jpg' if version_no_bg else 'img/istr_w_bg/map_w_bg.jpg'
+                await context.bot.send_photo(
                     chat_id=clb_query.message.chat_id,
-                    text="🎯 *Navigation Instructions*\nFollow these steps to reach your destination:\n",
+                    photo=photo,
+                    caption="🎯 *Navigation Instructions*\nFollow these steps to reach your destination:\n",
                     parse_mode='Markdown'
                 )
 
                 # Message 1
-                photo = self._resize_image('img/ahead-only.png')
+                photo = 'img/istr_no_bg/istr_1_no_bg.jpg' if version_no_bg else 'img/istr_w_bg/istr_1_w_bg.jpg'
                 await context.bot.send_photo(
                     chat_id=clb_query.message.chat_id,
                     photo=photo,
@@ -194,7 +189,7 @@ class NavigateCommand(CommandHandler):
                 )
                 
                 # Message 2
-                photo = self._resize_image('img/turn-left.png')
+                photo = 'img/istr_no_bg/istr_2_no_bg.jpg' if version_no_bg else 'img/istr_w_bg/istr_2_w_bg.jpg'
                 await context.bot.send_photo(
                     chat_id=clb_query.message.chat_id,
                     photo=photo,
@@ -203,16 +198,16 @@ class NavigateCommand(CommandHandler):
                 )
                 
                 # Message 3
-                photo = self._resize_image('img/ahead-only.png')
+                photo = 'img/istr_no_bg/istr_3_no_bg.jpg' if version_no_bg else 'img/istr_w_bg/istr_3_w_bg.jpg'
                 await context.bot.send_photo(
                     chat_id=clb_query.message.chat_id,
                     photo=photo,
-                    caption="*Step 3* \nContinue straight for 33 meters",
+                    caption="*Step 3* \nContinue straight for 43 meters",
                     parse_mode='Markdown'
                 )
                 
                 # Message 4
-                photo = self._resize_image('img/turn-left.png')
+                photo = 'img/istr_no_bg/istr_4_no_bg.jpg' if version_no_bg else 'img/istr_w_bg/istr_4_w_bg.jpg'
                 await context.bot.send_photo(
                     chat_id=clb_query.message.chat_id,
                     photo=photo,
@@ -221,7 +216,7 @@ class NavigateCommand(CommandHandler):
                 )
                 
                 # Message 5
-                photo = self._resize_image('img/ahead-only.png')
+                photo = 'img/istr_no_bg/istr_5_no_bg.jpg' if version_no_bg else 'img/istr_w_bg/istr_5_w_bg.jpg'
                 await context.bot.send_photo(
                     chat_id=clb_query.message.chat_id,
                     photo=photo,
@@ -232,10 +227,9 @@ class NavigateCommand(CommandHandler):
                 # Message 6
                 await context.bot.send_message(
                     chat_id=clb_query.message.chat_id,
-                    text="🎉 *You've arrived!*\nYour destination (classroom 6i) is on your left side.\n\nHave a great day! 🌟",
+                    text="🎉 *You've arrived!*\nYour destination (classroom 5i) is on your left side.\n\nHave a great day! 🌟",
                     parse_mode='Markdown'
                 )
-                
                 return ConversationHandler.END
             
             # Regular path computation for all other cases
