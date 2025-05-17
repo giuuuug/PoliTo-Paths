@@ -1,66 +1,76 @@
-# PoliTo-Paths 
+<p align="center">
+  <img src="img/polito_bot_logo.jpg" alt="PoliTo Mapping Bot" width="600"/>
+</p>
 
-## **Prerequisites**  
-- Python 3.12+ installed  
-- `git` installed
+# PoliTo-Paths
 
-## **Installation and configuration**  
-1. **Clone the repository** (if not already done):  
+## Descrizione del progetto
+
+**PoliTo-Paths** è un bot Telegram che aiuta gli utenti a trovare il percorso più semplice tra due aule o punti all’interno del Politecnico di Torino. Il bot guida l’utente passo-passo, mostrando le istruzioni di navigazione e le immagini della mappa, rendendo facile orientarsi anche per chi non conosce bene l’edificio.
+
+### Funzionalità principali
+
+- Selezione del punto di partenza e della destinazione tramite comandi interattivi.
+- Navigazione guidata con istruzioni testuali e immagini.
+- Interfaccia semplice tramite Telegram.
+- Gestione delle conversazioni e possibilità di annullare l’operazione in qualsiasi momento.
+
+---
+
+## Spiegazione dei file principali
+
+| File                | Descrizione                                                                 |
+|---------------------|-----------------------------------------------------------------------------|
+| `run_app.sh`        | Script bash per avviare il bot. Gestisce la creazione/attivazione della virtualenv, installa le dipendenze mancanti e avvia il bot in background. Termina eventuali istanze già attive. Logga gli errori in `app_error.log`. |
+| `stop_app.sh`       | Script bash per fermare tutte le istanze attive del bot.                    |
+| `telegram.token`    | File di testo che deve contenere il token del bot Telegram fornito da BotFather. |
+| `src/main.py`       | Entry point Python dell’applicazione.                                       |
+| `src/telegram_bot.py` | Gestisce la logica principale del bot e registra i comandi.                |
+
+---
+
+## Come avviare il bot da terminale
+
+1. **Clona il repository (se non l’hai già fatto):**
    ```bash
    git clone https://github.com/giuuuug/PoliTo-Paths.git
    cd PoliTo-Paths
    ```
 
-2. **Open the project with VSCode**  
-   - Use `Open Folder` and select the project directory
+2. **Crea il file `telegram.token` nella cartella principale**  
+   Inserisci al suo interno il token fornito da BotFather.
 
-3. **Set up a virtual environment**  
-   <img src="https://github.com/user-attachments/assets/a239616a-c725-4e00-9cf4-a67d81e3dc28" alt="VSCode Python Environment Setup" width="600" align="left" style="margin-right: 20px"/>
-   
-   - Select the Python extension icon (1)
-   - then click on the `+` icon (2) and select the latest Python version when prompted.
-   
-   <div style="clear: both;"></div>
-   
-   <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-   
-   Open a new terminal (`Terminal → New Terminal`) and install dependencies:
+3. **Rendi eseguibili gli script bash (solo la prima volta):**
    ```bash
-   pip install python-telegram-bot
+   chmod +x run_app.sh stop_app.sh
    ```
-   If installed without errors, you're ready to start the bot.
-   
-## **How to Start/Stop the Bot**  
 
-1. **Run the bot**:  
+4. **Avvia il bot:**
    ```bash
    ./run_app.sh
    ```
-   This script will:  
-   - Automatically activate the virtual environment (`.venv`)  
-   - Start the bot in background (logs saved to `app.log`)  
+   - Lo script crea e attiva automaticamente la virtualenv `.venv` se non esiste.
+   - Installa le dipendenze Python necessarie (`python-telegram-bot`, `psycopg2-binary`).
+   - Avvia il bot in background e salva eventuali errori in `app_error.log`.
 
-2. **Stop the bot**:  
+5. **Per fermare il bot:**
    ```bash
    ./stop_app.sh
    ```
-   This terminates all running instances of `app.py`
 
-3. **Test the bot**:  
-   Search for **@polito_paths_bot** in Telegram
+6. **Per vedere i log di errore:**
+   ```bash
+   cat app_error.log
+   ```
 
-#### **Troubleshooting**  
-- **If `run_app.sh` fails**:  
-  - Verify `.venv` exists (repeat Step 3)  
-  - Ensure execute permissions:  
-    ```bash
-    chmod +x run_app.sh stop_app.sh
-    ```  
-- Check `app.log` for error details
+---
 
-## **Key Files**  
-| File          | Purpose                                |  
-|---------------|----------------------------------------|  
-| `run_app.sh`  | Starts the bot with auto-venv check    |  
-| `stop_app.sh` | Stops all bot instances                |  
-| `app.log`     | Contains runtime logs                  |
+## Note aggiuntive
+
+- Se il bot non parte, controlla che il file `telegram.token` sia presente e corretto.
+- Se hai problemi con la virtualenv, elimina la cartella `.venv` e rilancia `./run_app.sh`.
+- Puoi testare il bot cercando **@polito_paths_bot** su Telegram (se il token è quello ufficiale).
+
+---
+
+Se vuoi aggiungere nuove aule o modificare la logica di navigazione, consulta i file Python nella cartella `src/command/` e le query SQL in `src/database/SQL/`.
