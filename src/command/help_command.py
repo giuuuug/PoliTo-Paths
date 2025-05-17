@@ -14,7 +14,6 @@ class HelpCommand(CommandHandler):
 
 /start - Start the bot and see welcome message
 /navigate - Start navigation between two points
-/sample - Try a sample navigation
 /help - Show this help message
 
 For navigation assistance, use /navigate command.

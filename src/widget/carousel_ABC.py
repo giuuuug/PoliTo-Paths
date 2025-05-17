@@ -1,8 +1,7 @@
-from typing import Any
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import InlineKeyboardMarkup
 from abc import ABC, abstractmethod
 
-class CarouselWidget(ABC):
+class CarouselABC(ABC):
     def __init__(self):
         self._curr_page = 0 
 
@@ -19,16 +18,22 @@ class CarouselWidget(ABC):
         if page < 0:
             raise ValueError("Page number cannot be negative.")
         self._curr_page = page
+        
+    def reset(self) -> None:
+        """
+        Resets the current page to the first page.
+        """
+        self._curr_page = 0 
 
     @abstractmethod
-    def get(self, options: list[dict[str, Any]], max_cols: int = 2, max_rows: int = 3) -> InlineKeyboardMarkup:
+    def get_markup(self, options, max_cols: int = 2, max_rows: int = 3) -> InlineKeyboardMarkup:
         """
         Abstract method to generate the carousel body (keyboard markup).
         Must be implemented by subclasses.
         """
         pass
 
-    def set_curr_page_from_navigation(self, srt: str):
+    def set_curr_page_from_answer(self, srt: str):
         direction = srt.split(":", 1)[1]
         if direction == "prev":
             self._curr_page -= 1
