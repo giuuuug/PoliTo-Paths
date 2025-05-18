@@ -119,7 +119,7 @@ class NavigateCommand(CommandHandler):
                 context.user_data['sel_destination'] = user_answer.split()[1]
                 if context.user_data['sel_source'] != '6I' or context.user_data['sel_destination'] != '5I':
                     self.log.info("Invalid source and destination")
-                    await clb_query.edit_message_text("This demo is only available for:\n- 6i (Source)\n- 5i (Destination). Please start again.")
+                    await clb_query.edit_message_text("An error occurred.\nThis demo is only available for:\n- 6i (Source)\n- 5i (Destination). \n\nPlease rerun the /navigate command.")
                     return ConversationHandler.END
                 context.user_data['question_state'] = NAVIGATION
                 await self._send_message(clb_query, context)
@@ -132,13 +132,13 @@ class NavigateCommand(CommandHandler):
     async def command_cancel(self, update_or_query, context):
         try:
             if isinstance(update_or_query, Update):
-                await update_or_query.message.reply_text("Operation cancelled. Please start again.")
+                await update_or_query.message.reply_text("Operation cancelled. Please rerun the /navigate command again.")
             else:
-                await update_or_query.edit_message_text("Operation cancelled. Please start again.")
+                await update_or_query.edit_message_text("Operation cancelled. Please rerun the /navigate command again.")
         except Exception:
             chat_id = update_or_query.message.chat_id if hasattr(update_or_query, "message") else None
             if chat_id:
-                await context.bot.send_message(chat_id=chat_id, text="Operation cancelled. Please start again.")
+                await context.bot.send_message(chat_id=chat_id, text="Operation cancelled. Please rerun the /navigate command again.")
 
         self._reset_user_state(context)
         return ConversationHandler.END
