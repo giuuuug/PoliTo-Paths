@@ -31,10 +31,10 @@ class CarouselImpl(CarouselABC):
         
 
         # Add navigation buttons
-        if self._curr_page > 0:
-            items.append([InlineKeyboardButton(text='⬅️ Previous', callback_data=f'{callback_data}:prev')])
         if self._curr_page < tot_pages - 1:
             items.append([InlineKeyboardButton(text='Next ➡️', callback_data=f'{callback_data}:next')])
+        if self._curr_page > 0:
+            items.append([InlineKeyboardButton(text='⬅️ Previous', callback_data=f'{callback_data}:prev')])
             
         items.append([InlineKeyboardButton(text='Cancel', callback_data=f'cancel')])
 
